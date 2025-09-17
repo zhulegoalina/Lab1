@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цветовые модели</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { 
+            background: #1a1a1a; 
+            color: #ffffff; 
+            padding: 20px; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .container { 
+            width: 95%; 
+            max-width: 1200px; 
+            background: #2d2d2d; 
+            border-radius: 15px; 
+            padding: 30px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4); 
+        }
+        h1 { 
+            text-align: center; 
+            margin-bottom: 10px; 
+            font-size: 2rem; 
+            color: #d4af37;
+        }
+        .subtitle { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            color: #ccc; 
+            font-size: 1.1rem; 
+        }
+        .color-display { 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .color-box { 
+            width: 120px; 
+            height: 120px; 
+            margin: 0 auto 15px; 
+            border-radius: 10px; 
+            border: 3px solid #555; 
+            transition: background-color 0.3s;
+        }
+        .color-hex { 
+            font-size: 1.4rem; 
+            margin-bottom: 15px; 
+            font-family: 'Courier New', monospace; 
+            font-weight: bold; 
+        }
+        input[type="color"] { 
+            width: 40px; 
+            height: 40px; 
+            border: 2px solid #555; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            background: #333; 
+        }
+        .models-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 25px; 
+        }
+        .model-panel { 
+            background: #222; 
+            border-radius: 12px; 
+            padding: 25px; 
+            border: 2px solid #444; 
+            text-align: center; 
+        }
+        .model-title { 
+            margin-bottom: 20px; 
+            color: #d4af37; 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+        }
+        .color-input { 
+            margin-bottom: 20px; 
+        }
+        .input-label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 0.9rem; 
+            color: #ccc; 
+        }
+        .input-group { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            justify-content: center; 
+        }
+        input[type="range"] { 
+            width: 200px; 
+            height: 6px; 
+            border-radius: 3px; 
+            background: #555; 
+            outline: none; 
+            -webkit-appearance: none; 
+            transition: background 0.3s;
+        }
+        input[type="range"]::-webkit-slider-thumb { 
+            -webkit-appearance: none; 
+            width: 16px; 
+            height: 16px; 
+            border-radius: 50%; 
+            background: #d4af37; 
+            cursor: pointer; 
+            transition: background 0.3s;
+        }
+        input[type="range"]:hover::-webkit-slider-thumb {
+            background: #f4cf67;
+            transform: scale(1.1);
+        }
+        input[type="number"] { 
+            width: 70px; 
+            padding: 8px; 
+            background: #333; 
+            border: 2px solid #555; 
+            border-radius: 6px; 
+            color: #fff; 
+            text-align: center; 
+            font-size: 1rem; 
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus { 
+            outline: none; 
+            border-color: #d4af37; 
+        }
+        .range-info { 
+            font-size: 0.8rem; 
+            color: #888; 
+            margin-top: 3px; 
+        }
+        .warning {
+            color: #ff5555;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+        .palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .swatch:hover {
+            transform: scale(1.1);
+            border-color: #d4af37;
+        }
+        @media (max-width: 1000px) { 
+            .models-grid { grid-template-columns: 1fr; gap: 20px; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>COLOR CONVERTER</h1>
+        <p class="subtitle">CMYK ↔ RGB ↔ HLS</p>
+
+        <div class="color-display">
+            <div class="color-box" id="colorPreview"></div>
+            <div class="color-hex" id="colorHex">#FFFFFF</div>
+            <input type="color" id="colorPicker" value="#ffffff">
+            <div class="palette">
+                <div class="swatch" style="background:#ff0000;" data-color="#ff0000"></div>
+                <div class="swatch" style="background:#00ff00;" data-color="#00ff00"></div>
+                <div class="swatch" style="background:#0000ff;" data-color="#0000ff"></div>
+                <div class="swatch" style="background:#ffff00;" data-color="#ffff00"></div>
+                <div class="swatch" style="background:#00ffff;" data-color="#00ffff"></div>
+                <div class="swatch" style="background:#ff00ff;" data-color="#ff00ff"></div>
+                <div class="swatch" style="background:#000000;" data-color="#000000"></div>
+                <div class="swatch" style="background:#ffffff;" data-color="#ffffff"></div>
+            </div>
+        </div>
+
+        <div class="models-grid">
+            <div class="model-panel">
+                <div class="model-title">CMYK</div>
+                <div class="color-input">
+                    <div class="input-label">CYAN <span class="range-info">(0-100%)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="cC" min="0" max="100" value="0">
+                        <input type="number" id="cCv" min="0" max="100" value="0">
+                    </div>
+                    <div class="warning" id="cWarning">Значение должно быть между 0 и 100</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">MAGENTA <span class="range-info">(0-100%)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="cM" min="0" max="100" value="0">
+                        <input type="number" id="cMv" min="0" max="100" value="0">
+                    </div>
+                    <div class="warning" id="mWarning">Значение должно быть между 0 и 100</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">YELLOW <span class="range-info">(0-100%)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="cY" min="0" max="100" value="0">
+                        <input type="number" id="cYv" min="0" max="100" value="0">
+                    </div>
+                    <div class="warning" id="yWarning">Значение должно быть между 0 и 100</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">BLACK <span class="range-info">(0-100%)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="cK" min="0" max="100" value="0">
+                        <input type="number" id="cKv" min="0" max="100" value="0">
+                    </div>
+                    <div class="warning" id="kWarning">Значение должно быть между 0 и 100</div>
+                </div>
+            </div>
+
+            <div class="model-panel">
+                <div class="model-title">RGB</div>
+                <div class="color-input">
+                    <div class="input-label">RED <span class="range-info">(0-255)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="rR" min="0" max="255" value="255">
+                        <input type="number" id="rRv" min="0" max="255" value="255">
+                    </div>
+                    <div class="warning" id="rWarning">Значение должно быть между 0 и 255</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">GREEN <span class="range-info">(0-255)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="rG" min="0" max="255" value="255">
+                        <input type="number" id="rGv" min="0" max="255" value="255">
+                    </div>
+                    <div class="warning" id="gWarning">Значение должно быть между 0 и 255</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">BLUE <span class="range-info">(0-255)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="rB" min="0" max="255" value="255">
+                        <input type="number" id="rBv" min="0" max="255" value="255">
+                    </div>
+                    <div class="warning" id="bWarning">Значение должно быть между 0 и 255</div>
+                </div>
+            </div>
+
+            <div class="model-panel">
+                <div class="model-title">HLS</div>
+                <div class="color-input">
+                    <div class="input-label">HUE <span class="range-info">(0-360°)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="hH" min="0" max="360" value="0">
+                        <input type="number" id="hHv" min="0" max="360" value="0">
+                    </div>
+                    <div class="warning" id="hWarning">Значение должно быть между 0 и 360</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">LIGHTNESS <span class="range-info">(0-100%)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="hL" min="0" max="100" value="100">
+                        <input type="number" id="hLv" min="0" max="100" value="100">
+                    </div>
+                    <div class="warning" id="lWarning">Значение должно быть между 0 и 100</div>
+                </div>
+                <div class="color-input">
+                    <div class="input-label">SATURATION <span class="range-info">(0-100%)</span></div>
+                    <div class="input-group">
+                        <input type="range" id="hS" min="0" max="100" value="0">
+                        <input type="number" id="hSv" min="0" max="100" value="0">
+                    </div>
+                    <div class="warning" id="sWarning">Значение должно быть между 0 и 100</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ColorConverter {
+            static rgbToCmyk(r, g, b) {
+                if (r === 0 && g === 0 && b === 0) return { c: 0, m: 0, y: 0, k: 100 };
+                const rn = r/255, gn = g/255, bn = b/255, k = 1 - Math.max(rn, gn, bn);
+                return {
+                    c: Math.round(((1 - rn - k) / (1 - k)) * 100),
+                    m: Math.round(((1 - gn - k) / (1 - k)) * 100),
+                    y: Math.round(((1 - bn - k) / (1 - k)) * 100),
+                    k: Math.round(k * 100)
+                };
+            }
+
+            static cmykToRgb(c, m, y, k) {
+                const cn = c/100, mn = m/100, yn = y/100, kn = k/100;
+                return {
+                    r: Math.max(0, Math.min(255, Math.round(255 * (1 - cn) * (1 - kn)))),
+                    g: Math.max(0, Math.min(255, Math.round(255 * (1 - mn) * (1 - kn)))),
+                    b: Math.max(0, Math.min(255, Math.round(255 * (1 - yn) * (1 - kn))))
+                };
+            }
+
+            static rgbToHls(r, g, b) {
+                const rn = r/255, gn = g/255, bn = b/255;
+                const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+                let h = 0, s = 0, l = (max + min) / 2;
+                if (max !== min) {
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    if (max === rn) h = (gn - bn) / d + (gn < bn ? 6 : 0);
+                    else if (max === gn) h = (bn - rn) / d + 2;
+                    else h = (rn - gn) / d + 4;
+                    h /= 6;
+                }
+                return { h: Math.round(h * 360), l: Math.round(l * 100), s: Math.round(s * 100) };
+            }
+
+            static hlsToRgb(h, l, s) {
+                if (s === 0) return { r: Math.round(l * 2.55), g: Math.round(l * 2.55), b: Math.round(l * 2.55) };
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1; if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                const hn = h/360, ln = l/100, sn = s/100;
+                const q = ln < 0.5 ? ln * (1 + sn) : ln + sn - ln * sn;
+                const p = 2 * ln - q;
+                return {
+                    r: Math.max(0, Math.min(255, Math.round(hue2rgb(p, q, hn + 1/3) * 255))),
+                    g: Math.max(0, Math.min(255, Math.round(hue2rgb(p, q, hn) * 255))),
+                    b: Math.max(0, Math.min(255, Math.round(hue2rgb(p, q, hn - 1/3) * 255)))
+                };
+            }
+        }
+
+        class App {
+            constructor() {
+                this.color = { r: 255, g: 255, b: 255 };
+                this.updating = false;
+                this.init();
+            }
+
+            init() {
+                const models = {
+                    'rgb': ['R', 'G', 'B'],
+                    'cmyk': ['C', 'M', 'Y', 'K'], 
+                    'hls': ['H', 'L', 'S']
+                };
+
+                for (const [model, comps] of Object.entries(models)) {
+                    comps.forEach(comp => {
+                        const slider = document.getElementById(model[0] + comp);
+                        const input = document.getElementById(model[0] + comp + 'v');
+                        const warning = document.getElementById(comp.toLowerCase() + 'Warning');
+                        
+                        const update = () => {
+                            if (this.updating) return;
+                            let val = parseInt(input.value);
+                            if (isNaN(val)) {
+                                warning.style.display = 'block';
+                                return;
+                            }
+                            const min = parseInt(input.min), max = parseInt(input.max);
+                            const clamped = Math.max(min, Math.min(max, val));
+                            if (val !== clamped) {
+                                input.value = clamped;
+                                warning.style.display = 'block';
+                            } else {
+                                warning.style.display = 'none';
+                            }
+                            slider.value = clamped;
+                            this[`from${model.toUpperCase()}`]();
+                        };
+                        
+                        slider.addEventListener('input', () => { 
+                            input.value = slider.value; 
+                            warning.style.display = 'none';
+                            update(); 
+                        });
+                        input.addEventListener('input', update);
+                        input.addEventListener('change', update);
+                        input.addEventListener('blur', update);
+                    });
+                }
+
+                document.getElementById('colorPicker').addEventListener('input', (e) => {
+                    const hex = e.target.value;
+                    this.color = {
+                        r: parseInt(hex.substr(1, 2), 16),
+                        g: parseInt(hex.substr(3, 2), 16),
+                        b: parseInt(hex.substr(5, 2), 16)
+                    };
+                    this.updateAll();
+                });
+
+                document.querySelectorAll('.swatch').forEach(swatch => {
+                    swatch.addEventListener('click', () => {
+                        const color = swatch.getAttribute('data-color');
+                        this.color = {
+                            r: parseInt(color.substr(1, 2), 16),
+                            g: parseInt(color.substr(3, 2), 16),
+                            b: parseInt(color.substr(5, 2), 16)
+                        };
+                        this.updateAll();
+                    });
+                });
+
+                this.updateAll();
+            }
+
+            updateAll() {
+                this.updating = true;
+                document.getElementById('rR').value = document.getElementById('rRv').value = this.color.r;
+                document.getElementById('rG').value = document.getElementById('rGv').value = this.color.g;
+                document.getElementById('rB').value = document.getElementById('rBv').value = this.color.b;
+                
+                const cmyk = ColorConverter.rgbToCmyk(this.color.r, this.color.g, this.color.b);
+                document.getElementById('cC').value = document.getElementById('cCv').value = cmyk.c;
+                document.getElementById('cM').value = document.getElementById('cMv').value = cmyk.m;
+                document.getElementById('cY').value = document.getElementById('cYv').value = cmyk.y;
+                document.getElementById('cK').value = document.getElementById('cKv').value = cmyk.k;
+                
+                const hls = ColorConverter.rgbToHls(this.color.r, this.color.g, this.color.b);
+                document.getElementById('hH').value = document.getElementById('hHv').value = hls.h;
+                document.getElementById('hL').value = document.getElementById('hLv').value = hls.l;
+                document.getElementById('hS').value = document.getElementById('hSv').value = hls.s;
+                
+                const hex = `#${this.color.r.toString(16).padStart(2, '0')}${this.color.g.toString(16).padStart(2, '0')}${this.color.b.toString(16).padStart(2, '0')}`;
+                document.getElementById('colorPreview').style.backgroundColor = hex;
+                document.getElementById('colorHex').textContent = hex.toUpperCase();
+                document.getElementById('colorPicker').value = hex;
+                
+                document.querySelectorAll('.warning').forEach(w => w.style.display = 'none');
+                this.updating = false;
+            }
+
+            fromRGB() {
+                this.color = {
+                    r: parseInt(document.getElementById('rRv').value),
+                    g: parseInt(document.getElementById('rGv').value),
+                    b: parseInt(document.getElementById('rBv').value)
+                };
+                this.updateAll();
+            }
+
+            fromCMYK() {
+                this.color = ColorConverter.cmykToRgb(
+                    parseInt(document.getElementById('cCv').value),
+                    parseInt(document.getElementById('cMv').value),
+                    parseInt(document.getElementById('cYv').value),
+                    parseInt(document.getElementById('cKv').value)
+                );
+                this.updateAll();
+            }
+
+            fromHLS() {
+                this.color = ColorConverter.hlsToRgb(
+                    parseInt(document.getElementById('hHv').value),
+                    parseInt(document.getElementById('hLv').value),
+                    parseInt(document.getElementById('hSv').value)
+                );
+                this.updateAll();
+            }
+        }
+
+        new App();
+    </script>
+</body>
+</html>
