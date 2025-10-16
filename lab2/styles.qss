@@ -1,0 +1,127 @@
+QMainWindow {
+    background-color: #f0f0f0;
+}
+
+QWidget {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 10pt;
+    color: black;
+}
+
+QPushButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #45a049;
+}
+
+QPushButton:disabled {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+QPushButton#stopButton {
+    background-color: #f44336;
+}
+
+QPushButton#stopButton:hover {
+    background-color: #da190b;
+}
+
+QLineEdit {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+}
+
+QProgressBar {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #e0e0e0;
+    color: black;
+}
+
+QProgressBar::chunk {
+    background-color: #4CAF50;
+    border-radius: 3px;
+}
+
+QTableWidget {
+    gridline-color: #d0d0d0;
+    background-color: white;
+    alternate-background-color: #f8f8f8;
+    color: black;
+}
+
+QTableWidget::item {
+    padding: 4px;
+    border-bottom: 1px solid #e0e0e0;
+    color: black;
+}
+
+QTableWidget::item:selected {
+    background-color: #e3f2fd;
+    color: black;
+}
+
+QHeaderView::section {
+    background-color: #2196F3;
+    color: white;
+    padding: 6px;
+    border: none;
+    font-weight: bold;
+}
+
+QTabWidget::pane {
+    border: 1px solid #c0c0c0;
+    background-color: white;
+}
+
+QTabBar::tab {
+    background-color: #e0e0e0;
+    color: black; /* ДОБАВИТЬ ЭТУ СТРОКУ */
+    padding: 8px 16px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+}
+
+QTextEdit {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-family: "Consolas", "Monaco", monospace;
+    font-size: 9pt;
+    color: black;
+}
+
+QLabel {
+    color: black;
+}
+
+QLabel#statusLabel {
+    color: #666;
+    font-style: italic;
+}
+
+QLabel#titleLabel {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #2196F3;
+    padding: 10px;
+}
