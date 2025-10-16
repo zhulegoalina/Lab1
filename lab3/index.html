@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обработка изображений</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖼️ Обработка изображений</h1>
+            <p>Гистограммы, пороговая и морфологическая обработка</p>
+        </header>
+
+        <div class="main">
+            <aside class="sidebar">
+                <div class="section">
+                    <h3>📁 Загрузка изображения</h3>
+                    <input type="file" id="imageUpload" accept="image/*">
+                    <div class="demo">
+                        <h4>Пример для тестирования:</h4>
+                        <div class="demo-grid">
+                            <img src="https://raw.githubusercontent.com/opencv/opencv/master/samples/data/blox.jpg" data-src="https://raw.githubusercontent.com/opencv/opencv/master/samples/data/blox.jpg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>⚙️ Метод обработки</h3>
+                    <select id="methodSelect">
+                        <option value="histogram">📊 Гистограммы</option>
+                        <option value="global">🌐 Глобальный порог</option>
+                        <option value="adaptive">📐 Адаптивный порог</option>
+                        <option value="morphology">🔍 Морфология</option>
+                    </select>
+                </div>
+
+                <div id="parametersPanel" class="section">
+                </div>
+            </aside>
+
+            <main class="content">
+                <div class="comparison">
+                    <div class="panel">
+                        <h3>Исходное изображение</h3>
+                        <canvas id="originalCanvas"></canvas>
+                        <div id="originalInfo"></div>
+                    </div>
+                    <div class="panel">
+                        <h3>Результат обработки</h3>
+                        <canvas id="processedCanvas"></canvas>
+                        <div id="processedInfo"></div>
+                    </div>
+                </div>
+
+                <div class="histograms">
+                    <div class="chart">
+                        <h3>Гистограмма исходного</h3>
+                        <canvas id="originalHistogram"></canvas>
+                    </div>
+                    <div class="chart">
+                        <h3>Гистограмма результата</h3>
+                        <canvas id="processedHistogram"></canvas>
+                    </div>
+                </div>
+
+                <div class="explanation">
+                    <h3>📝 Пояснения</h3>
+                    <div id="explanationText"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
