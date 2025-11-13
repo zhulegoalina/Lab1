@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Алгоритмы отсечения отрезков</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Алгоритмы отсечения отрезков</h1>
+            <p>Алгоритм средней точки и отсечения выпуклым многоугольником</p>
+        </header>
+        
+        <div class="content">
+            <div class="canvas-section">
+                <canvas id="canvas" width="600" height="500"></canvas>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="color-box window"></div>
+                        <span>Отсекающая область</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box original"></div>
+                        <span>Исходные отрезки</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box clipped"></div>
+                        <span>Видимые части</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <h3>Алгоритм</h3>
+                    <select id="algorithm">
+                        <option value="midpoint">Средней точки (прямоугольник)</option>
+                        <option value="polygon">Выпуклым многоугольником</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Входные данные</h3>
+                    <textarea id="inputData">5
+50 50 200 150
+100 200 300 100
+150 50 250 250
+50 200 250 50
+200 200 350 100</textarea>
+                    <button id="loadData">Загрузить данные</button>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Отсекающая область</h3>
+                    <div id="rectangle-controls">
+                        <div class="input-row">
+                            <input type="number" id="xmin" value="100" placeholder="Xmin">
+                            <input type="number" id="ymin" value="100" placeholder="Ymin">
+                        </div>
+                        <div class="input-row">
+                            <input type="number" id="xmax" value="300" placeholder="Xmax">
+                            <input type="number" id="ymax" value="300" placeholder="Ymax">
+                        </div>
+                    </div>
+                    <div id="polygon-controls" style="display: none;">
+                        <textarea id="polygonPoints" placeholder="Координаты ВЫПУКЛОГО многоугольника через пробел (x1 y1 x2 y2 ...)">150 150 250 100 300 200 200 300 100 200</textarea>
+                    </div>
+                    <button id="updateArea">Обновить область</button>
+                </div>
+                
+                <div class="control-group">
+                    <button id="clipSegments">Выполнить отсечение</button>
+                    <button id="clearCanvas">Очистить</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="calculations-section">
+            <h3>Вычисления</h3>
+            <div id="calculations"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
