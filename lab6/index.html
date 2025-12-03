@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа 6: 3D Буква "Ж"</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Лабораторная работа 6: 3D Буква "Ж"</h1>
+    
+    <div class="container">
+        <div class="main-view">
+            <h2>3D Вид</h2>
+            <canvas id="mainCanvas" class="canvas-container" width="500" height="500"></canvas>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <h3>Преобразования</h3>
+                
+                <div class="transform-group">
+                    <h4>Перенос</h4>
+                    <div class="control-row">
+                        <label>X:</label>
+                        <input type="number" id="translateX" value="0" step="10">
+                        <label>Y:</label>
+                        <input type="number" id="translateY" value="0" step="10">
+                        <label>Z:</label>
+                        <input type="number" id="translateZ" value="0" step="10">
+                        <button onclick="applyTranslation()">Применить</button>
+                    </div>
+                </div>
+                
+                <div class="transform-group">
+                    <h4>Масштаб</h4>
+                    <div class="control-row">
+                        <label>X:</label>
+                        <input type="number" id="scaleX" value="1" step="0.1">
+                        <label>Y:</label>
+                        <input type="number" id="scaleY" value="1" step="0.1">
+                        <label>Z:</label>
+                        <input type="number" id="scaleZ" value="1" step="0.1">
+                        <button onclick="applyScale()">Применить</button>
+                    </div>
+                </div>
+                
+                <div class="transform-group">
+                    <h4>Вращение (градусы)</h4>
+                    <div class="control-row">
+                        <label>X:</label>
+                        <input type="number" id="rotateX" value="0">
+                        <label>Y:</label>
+                        <input type="number" id="rotateY" value="0">
+                        <label>Z:</label>
+                        <input type="number" id="rotateZ" value="0">
+                        <button onclick="applyRotation()">Применить</button>
+                    </div>
+                </div>
+                
+                <button onclick="resetAll()" class="reset-btn">Сбросить все</button>
+            </div>
+            
+            <div class="control-group">
+                <h3>Ортографические проекции</h3>
+                <div class="projections">
+                    <div class="projection-item">
+                        <canvas id="oxyCanvas" class="projection-canvas" width="250" height="250"></canvas>
+                    </div>
+                    <div class="projection-item">
+                        <canvas id="oxzCanvas" class="projection-canvas" width="250" height="250"></canvas>
+                    </div>
+                    <div class="projection-item">
+                        <canvas id="oyzCanvas" class="projection-canvas" width="250" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="matrix-container">
+        <h3>Матрица преобразования</h3>
+        <div id="matrixDisplay" class="matrix"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
